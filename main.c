@@ -99,9 +99,10 @@ void ReadTemperatureLoop(SensorList *sensorList, FILE * tempData)
         {
             float temperature = ReadTemperature(sensorList->Sensors[i]);
             DriveRelay(temperature);
+            //DriveRelayWithPWM(temperature);
             PrintTemperatueToLCD1602(sensorList->Sensors[i], i % LCD1602LINES, temperature);
             LogTemperature(sensorList->Sensors[i], temperature, tempData);
-            //TODO: Refresh plot
+            //GnuplotRead(tempData);
         }       
     }
 }
@@ -128,19 +129,14 @@ void PrintTemperatueToLCD1602(Sensor *sensor, int lineToPrintDataOn, float tempe
 	lcd1602WriteString(temperatureString);
 }
 
-//TODO: Implement PID controller
+//Drive Relay with a simple conditional statement
 void DriveRelay(const float temperature)
 {
-    if (temperature < SETTEMP - 2)      
-    {
-        digitalWrite(RELAYPIN, HIGH);
-    }
-    if (temperature > SETTEMP )
-    {
-        digitalWrite(RELAYPIN, LOW);
-    }
+    if (temperature < SETTEMP - 2) digitalWrite(RELAYPIN, HIGH);
+    if (temperature > SETTEMP ) digitalWrite(RELAYPIN, LOW);
 }
 
+//Drive Relay with a PID controller
 void DriveRelayWithPWM(const float temperature)
 }
     /*PID constants*/
@@ -149,24 +145,29 @@ void DriveRelayWithPWM(const float temperature)
     Kd = 150;
 
     int output = 0;
-    float prevError = ;                   
+    static float prevError;                   
     float error = SETTEMP - temperature;
 
     time_t currentTime;
     time(&currentTime);
-    struct timer = local
-    dt = now - prevUpdate;      //change in time
-    now = ;
-    static prevUpdate = ;
+    struct timer tm = localtime(&currentTime);
+    float dt = now - prevUpdate;      //change in time
+    now = tm->tm_sec;                 //Method should be in less than 1 min. dt should only be in seconds?
+    static float prevUpdate;
     
-    static integral = integral + dt * error;
+    float integral = integral + dt * error;
     derivative = (error - prevError) / dt;
     int output = Kp * error + Ki * integral + Kd * derivative;
+
+    prevError = error;
+    prevUpdate = now;
+
+    pwmWrite(RELAYPIN, output);     //Write PID output as PWM signal
 
 }
 
 /*
-void gnuplotRead(FILE * tempData)
+void GnuplotRead(FILE * tempData)
 {
     gnuplot_cmd(plot, "set xdata time");
     gnuplot_cmd(plot, "set timefmt \"%H:%M:%S\"");

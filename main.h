@@ -15,6 +15,6 @@ void LogTemperature(Sensor *sensor, float temperature, FILE * tempData);
 void PrintTemperatueToLCD1602(Sensor *sensor, int lineToPrintDataOn, float temperature);
 void DriveRelay(const float temperature);
 void DriveRelayWithPWM(const float temperature);
-void gnuplotRead(FILE * tempData);
+void GnuplotRead(FILE * tempData);
 
 #endif /* _main_h */
