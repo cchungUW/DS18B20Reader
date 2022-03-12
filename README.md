@@ -1,3 +1,6 @@
+# Original Code from Albert Herd: https://github.com/albertherd/DS18B20Reader 
+This software also uses the gnuplot_i library written by N.Devillard: http://ndevilla.free.fr/gnuplot/gnuplot_i/index.html
+
 # DS18B20Reader - A sample solution to read temperature from a DS18B20 sensor and output it to an LCD1602
 
 ![LCD1602 Output](LCD1602Output.jpg)
