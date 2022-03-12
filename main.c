@@ -167,6 +167,7 @@ void DriveRelayWithPWM(const float temperature)
 }
 
 /*
+//Reads temperature data stream and graphs it
 void GnuplotRead(FILE * tempData)
 {
     gnuplot_cmd(plot, "set xdata time");
