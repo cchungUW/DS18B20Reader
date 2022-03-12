@@ -90,6 +90,7 @@ float ReadTemperature(const Sensor *sensor)
     
     float temperatureFloat = atof(temperatureComponent);
     temperatureFloat = temperatureFloat / 1000;
+    temperatureFloat = temperatureFloat * 9.0/5.0 + 32;     //Convert from C to F
 
     if(temperatureFloat < -55)
         temperatureFloat = -55;
